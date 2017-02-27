@@ -1,12 +1,6 @@
-import argparse
-from name.main import *
 import urllib.request
 
-parser = argparse.ArgumentParser()
-parser.add_argument('--input', help='input help')
-args = parser.parse_args()
 
-filename = args.input
 
 
 def read_url_execute(uri):
@@ -17,13 +11,14 @@ def read_url_execute(uri):
 
     for line in buffer.split('\n'):
             if len(line.split()) == 0:
-                print("Input ended")
+                print("Finished calculating!")
                 map_and_count(size, new_map, uri)
             else:
                 if len(line.split()) == 1:
                     if 0 >= int(line) > 999999:
                         print("Grid size out of range")
                     else:
+                        print("Running...")
                         size = (int(line))
                         map1 = []
                         new_map = create(size, map1)
@@ -90,7 +85,6 @@ def read_url_commands(uri):
                         x2, y2 = line.split()[4].split(',')
                         print("x2 is:", x2, ", y2 is:", y2)
                         print("")
-                        #turn_on(x1,y1,x2,y2)
 
                     elif line.split()[1] == "off":
                         '''turn off()'''
@@ -180,4 +174,82 @@ def read_file_execute(filename):
                 x2, y2 = line.split()[4], line.split()[5]
                 x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
                 switch(x1, y1, x2, y2, size, new_map)
+
+def create(size, map1):
+    '''Creates list in map1 to the size specified by input'''
+
+    #print("Creating map of size", size, "*", size)
+    for x in range(size):
+        for y in range(size):
+            map1 += False,
+            new_map = map1
+    return new_map
+
+def turn_on(x1, y1, x2, y2, size, new_map):
+    '''Turns on lights in range defined.'''
+    x1 = coord_check(x1, size)
+    x2 = coord_check(x2, size)
+    y1 = coord_check(y1, size)
+    y2 = coord_check(y2, size)
+
+    #print("Turning on", x1, ",", y1, "to", x2, ",", y2)
+
+    for i in range(size * y1, size * y2 + 1, size):
+        for j in range(x1 + i, x2 + i + 1):
+            new_map[j] = True
+    return new_map
+
+def turn_off(x1, y1, x2, y2, size, new_map):
+    '''Turns off lights in range defined'''
+    x1 = coord_check(x1, size)
+    x2 = coord_check(x2, size)
+    y1 = coord_check(y1, size)
+    y2 = coord_check(y2, size)
+
+
+    #print("Turning off", x1, ",", y1, "to", x2, ",", y2)
+
+    for i in range(size * y1, size * y2 + 1, size):
+        for j in range(x1 + i, x2 + i + 1):
+            new_map[j] = False
+    return new_map
+
+def switch(x1, y1, x2, y2, size, new_map):
+    '''for range defined, switches lights from off to on and vice versa'''
+    x1 = coord_check(x1, size)
+    x2 = coord_check(x2, size)
+    y1 = coord_check(y1, size)
+    y2 = coord_check(y2, size)
+    #print("Switching", x1, ",", y1, "to", x2, ",", y2)
+
+    for i in range(size * y1, size * y2 + 1, size):
+        for j in range(x1 + i, x2 + i + 1):
+            if not new_map[j]:
+                new_map[j] = True
+            else:
+                new_map[j] = False
+    return new_map
+
+def map_and_count(size, new_map, uri):
+    '''Visualistation of LED grid'''
+    '''
+    for j in range(len(new_map)):
+        if new_map[j]:
+            print("X", " ", end="")
+        else:
+            print("-", " ", end="")
+        if (j + 1) % (size) == 0:
+            print("")
+    '''
+    print("File executed:", uri)
+    print("Lights on:", sum(new_map))
+
+def coord_check(n, size):
+    '''checks if coordinates are within range of grid. If not, makes them so.'''
+    if n < 0:
+        return 0
+    elif n >= size:
+        return size - 1
+    else:
+        return n
 

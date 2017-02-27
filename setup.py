@@ -7,9 +7,9 @@ setup(name = 'LightBox',
       author = "Conan Martin",
       author_email = "conan.martin@ucdconnect.ie",
       licence = "XX",
-      packages = ["src"],
+      packages = ["name"],
       entry_points={
-        'console_scripts':['LightBox=src.name:main']
+        'console_scripts':['LightBox=name.main:main']
         },
       install_requires=[
           '',
