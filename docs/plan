@@ -1,0 +1,6 @@
+For this project, I plan on creating several simple methods that can be called depending on input.
+The four methods will be 'create', 'turn_on', 'turn_off' and 'switch'.
+'create' will take the first line of the input (a number > 0 and > 1000) and create a grid with coordinates (x,y)
+the other 3 methods will take subsequent lines of input. These lines will need to be separated and saved to appropriate variables to call a particular function and feed two sets of coordinates in as parameters.
+One potential issue may be separating out the function call from input, as in two cases it is two words, and the other only one.
+
