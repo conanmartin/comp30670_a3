@@ -15,20 +15,23 @@ def create(size, map1):
         for y in range(size):
             map1 += False,
             new_map = map1
-            return new_map
+    return new_map
 
-def turn_on(x1, y1, x2, y2, size):
+def turn_on(x1, y1, x2, y2, size, new_map):
     '''Turns on lights in range defined.'''
     x1 = coord_check(x1, size)
     x2 = coord_check(x2, size)
     y1 = coord_check(y1, size)
     y2 = coord_check(y2, size)
 
+    print("Turning on", x1, ",", y1, "to", x2, ",", y2)
+
     for i in range(size * y1, size * y2 + 1, size):
         for j in range(x1 + i, x2 + i + 1):
-            map1[j] = True
+            new_map[j] = True
+    return new_map
 
-def turn_off(x1, y1, x2, y2, size):
+def turn_off(x1, y1, x2, y2, size, new_map):
     '''Turns off lights in range defined'''
     x1 = coord_check(x1, size)
     x2 = coord_check(x2, size)
@@ -40,9 +43,10 @@ def turn_off(x1, y1, x2, y2, size):
 
     for i in range(size * y1, size * y2 + 1, size):
         for j in range(x1 + i, x2 + i + 1):
-            map1[j] = False
+            new_map[j] = False
+    return new_map
 
-def switch(x1, y1, x2, y2, size):
+def switch(x1, y1, x2, y2, size, new_map):
     '''for range defined, switches lights from off to on and vice versa'''
     x1 = coord_check(x1, size)
     x2 = coord_check(x2, size)
@@ -52,21 +56,24 @@ def switch(x1, y1, x2, y2, size):
 
     for i in range(size * y1, size * y2 + 1, size):
         for j in range(x1 + i, x2 + i + 1):
-            if not map1[j]:
-                map1[j] = True
+            if not new_map[j]:
+                new_map[j] = True
             else:
-                map1[j] = False
-def map_and_count(size):
+                new_map[j] = False
+    return new_map
+
+def map_and_count(size, new_map, uri):
     '''Visualistation of LED grid'''
-    for j in range(len(map1)):
-        if map1[j]:
+    for j in range(len(new_map)):
+        if new_map[j]:
             print("X", " ", end="")
         else:
             print("-", " ", end="")
         if (j + 1) % (size) == 0:
             print("")
 
-    print("Lights on:", sum(map1))
+    print("File executed:", uri)
+    print("Lights on:", sum(new_map))
 
 def coord_check(n, size):
     '''checks if coordinates are within range of grid. If not, makes them so.'''
